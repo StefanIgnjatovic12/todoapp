@@ -1,0 +1,37 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="ChainedEqualityJS" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ChainedFunctionCallJS" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ConstantOnLHSOfComparisonJS" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="ConstantOnRHSOfComparisonJS" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="useSeverityFromConfigFile" value="false" />
+    </inspection_tool>
+    <inspection_tool class="JSArrowFunctionBracesCanBeRemoved" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="JSDeclarationsAtScopeStart" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="JSRemoveUnnecessaryParentheses" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="JSUndefinedPropertyAssignment" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="NestedFunctionCallJS" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="NonBlockStatementBodyJS" enabled="false" level="ERROR" enabled_by_default="false" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="8">
+            <item index="0" class="java.lang.String" itemvalue="Flask" />
+            <item index="1" class="java.lang.String" itemvalue="factory" />
+            <item index="2" class="java.lang.String" itemvalue="knox" />
+            <item index="3" class="java.lang.String" itemvalue="django-cors-headers" />
+            <item index="4" class="java.lang.String" itemvalue="Django" />
+            <item index="5" class="java.lang.String" itemvalue="requests" />
+            <item index="6" class="java.lang.String" itemvalue="urllib3" />
+            <item index="7" class="java.lang.String" itemvalue="Pillow" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="UnterminatedStatementJS" enabled="false" level="ERROR" enabled_by_default="false">
+      <option name="ignoreSemicolonAtEndOfBlock" value="true" />
+    </inspection_tool>
+  </profile>
+</component>
