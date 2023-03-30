@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import taskReducer from "../task/taskSlice";
+import dataReducer from "../data/dataSlice";
 import { readJsonData } from "../utils/jsonUtils";
 
 const tasksKey = "tasks";
@@ -17,98 +17,51 @@ const testData = {
       name: "Task 1",
       type: "task",
       completed: false,
-      subtasks: [
-        {
-          id: "subtask1",
-          name: "Subtask 1",
-          type: "subtask",
-          completed: false,
-          parentId: "task1",
-          parentType: "task",
-          subtasks: [
-            {
-              id: "subtask1-1",
-              name: "Subtask 1-1",
-              type: "subtask",
-              completed: false,
-              parentId: "subtask1",
-              parentType: "subtask",
-              subtasks: [],
-            },
-          ],
-        },
-        {
-          id: "subtask2",
-          name: "Subtask 2",
-          type: "subtask",
-          completed: false,
-          parentId: "task1",
-          parentType: "task",
-          subtasks: [
-            {
-              id: "subtask2-1",
-              name: "Subtask 2-1",
-              type: "subtask",
-              completed: false,
-              parentId: "subtask2",
-              parentType: "subtask",
-              subtasks: [],
-            },
-          ],
-        },
-      ],
+      createdOn: "2023-01-01T10:30:00.000Z",
+    },
+  ],
+  subtasks: [
+    {
+      id: "subtask1",
+      name: "Subtask 1",
+      type: "subtask",
+      completed: false,
+      parentId: "task1",
+      parentType: "task",
+      createdOn: "2023-01-02T10:30:00.000Z",
     },
     {
-      id: "task2",
-      name: "Task 2",
-      type: "task",
+      id: "subtask1-1",
+      name: "Subtask 1-1",
+      type: "subtask",
       completed: false,
-      subtasks: [
-        {
-          id: "subtask3",
-          name: "Subtask 3",
-          type: "subtask",
-          completed: false,
-          parentId: "task2",
-          parentType: "task",
-          subtasks: [
-            {
-              id: "subtask3-1",
-              name: "Subtask 3-1",
-              type: "subtask",
-              completed: false,
-              parentId: "subtask3",
-              parentType: "subtask",
-              subtasks: [],
-            },
-          ],
-        },
-        {
-          id: "subtask4",
-          name: "Subtask 4",
-          type: "subtask",
-          completed: false,
-          parentId: "task2",
-          parentType: "task",
-          subtasks: [
-            {
-              id: "subtask4-1",
-              name: "Subtask 4-1",
-              type: "subtask",
-              completed: false,
-              parentId: "subtask4",
-              parentType: "subtask",
-              subtasks: [],
-            },
-          ],
-        },
-      ],
+      parentId: "subtask1",
+      parentType: "subtask",
+      createdOn: "2023-01-03T10:30:00.000Z",
+    },
+    {
+      id: "subtask2",
+      name: "Subtask 2",
+      type: "subtask",
+      completed: false,
+      parentId: "task1",
+      parentType: "task",
+      createdOn: "2023-01-04T10:30:00.000Z",
+    },
+    {
+      id: "subtask2-1",
+      name: "Subtask 2-1",
+      type: "subtask",
+      completed: false,
+      parentId: "subtask2",
+      parentType: "subtask",
+      createdOn: "2023-01-05T10:30:00.000Z",
     },
   ],
 };
 
 const rootReducer = combineReducers({
-  task: taskReducer,
+  data: dataReducer,
   // TODO: Add more reducers here if needed
 });
 

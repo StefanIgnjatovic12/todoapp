@@ -1,0 +1,111 @@
+.task-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 1rem;
+  background-color: #1a1a1a;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.task-add-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+  margin-bottom: 1rem;
+}
+
+.task-add-input-field {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border-radius: 3px;
+  font-size: 1rem;
+  border: none;
+  color: #f5f5f5;
+  background-color: #363636;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease-in-out;
+  margin-right: 1rem;
+}
+
+.task-add-input-field:focus {
+  outline: none;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task-add-input-field::placeholder {
+  color: #9b9b9b;
+}
+.task-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  width: 60%; /*change this */
+  padding: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  margin-bottom: 1rem;
+  background-color: #363636;
+  border-radius: 3.5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.task-container:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.task-name {
+  display: flex;
+  color: #f5f5f5;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  flex-grow: 1;
+}
+
+.task-buttons-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/*fix this*/
+.task-edit-input-field {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border-radius: 3px;
+  border: none;
+  color: #f5f5f5;
+  background-color: #363636;
+  margin-right: 1rem;
+}
+
+.task-edit-input-field:focus {
+  border: #f5f5f5;
+}
+
+.task-edit-input-field::placeholder {
+  color: #9b9b9b;
+}
+/*.delete-button{*/
+/*  background-color: #ccc;*/
+/*}*/
+
+/*.delete-button:hover{*/
+/*  background-color: #aaa;*/
+/*}*/
