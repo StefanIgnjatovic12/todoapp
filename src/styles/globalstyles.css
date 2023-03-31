@@ -1,19 +1,17 @@
 .primary-button {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: 3px;
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  color: #f5f5f5;
-  background-color: #262626;
-  /*border: 2px solid #f5f5f5;*/
-  /*box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);*/
-  transition: background-color 0.2s ease-in-out;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: 2px solid #79F2D7;
+    color: #79F2D7;
+    background-color: transparent;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease-in-out;
 }
 
 .primary-button:hover {
-  background-color: #f5f5f5;
-  color: #1a1a1a;
+    background-color: #79F2D7;
+    color:  #074638;
+    cursor: pointer;
 }

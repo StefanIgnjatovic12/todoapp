@@ -98,3 +98,13 @@ export const markSubtaskAsNotCompleted = (subTaskId) => ({
 export const handleMarkSubtaskAsNotCompleted = (dispatch, subTaskId) => {
   dispatch(markSubtaskAsNotCompleted(subTaskId));
 };
+
+//Toggle if subtask is collapseChildren
+export const toggleSubtaskIsCollapsed = (subTaskId) => ({
+  type: "data/toggleSubtaskIsCollapsed",
+  payload: {subTaskId}
+});
+
+export const handleToggleSubtaskIsCollapsed = (dispatch, subTaskId) => {
+  dispatch(toggleSubtaskIsCollapsed(subTaskId));
+};

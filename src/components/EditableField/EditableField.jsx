@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "../TaskList/tasklist.css"
+import "./editablefield.css"
 function EditableField({ name, onSave }) {
   const [value, setValue] = useState(name);
   const [editing, setEditing] = useState(false);
@@ -19,6 +19,7 @@ function EditableField({ name, onSave }) {
     <div onClick={() => setEditing(true)}>
       {editing ? (
         <input
+          autoFocus={true}
           className="task-edit-input-field"
           type="text"
           value={value}

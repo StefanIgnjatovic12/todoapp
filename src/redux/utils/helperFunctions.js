@@ -1,20 +1,5 @@
-// Recursive function to find a subtask object with the given ID
-// parent container can either be a data, subtask or the entire state object itself
-// because it is the parent for all the tasks and subtasks
-export function findSubtask(parentContainer, subTaskId) {
-  // Base case, parent can either be a data or subtask
-  if (parentContainer.id === subTaskId) {
-    return parentContainer;
-  } else {
-    for (const child of parentContainer.subtasks) {
-      const found = findSubtask(child, subTaskId);
-      if (found) {
-        return found;
-      }
-    }
-    return null;
-  }
-}
+import { writeJsonData } from "./jsonUtils";
+import { tasksKey, subtasksKey } from "../data/dataSlice";
 
 export function findTaskOrSubtaskById(id, data) {
   const task = data.tasks.find((task) => task.id === id);
@@ -28,58 +13,74 @@ export function findTaskOrSubtaskById(id, data) {
   return null; // return null if task or subtask with the given ID is not found
 }
 
-//Recursively mark all subtasks as completed for a given data or subtask
-export function markAllSubtasksCompleteForParent(parent) {
-  // For each subtask of the given data:
-  parent.subtasks.forEach((subtask) => {
-    // Mark the subtask as completed.
-    subtask.completed = true;
+function getParent(state, subtask) {
+  return subtask.parentType === "task"
+    ? state.tasks.find((task) => task.id === subtask.parentId)
+    : state.subtasks.find((subtask) => subtask.id === subtask.parentId);
+}
 
-    // Recursively mark all subtasks of the current subtask as completed.
-    if (subtask.subtasks.length > 0) {
-      markAllSubtasksCompleteForParent(subtask);
+export function markAllSubtasksCompleteForParent(parentId, state) {
+  const parentTask = state.tasks.find((task) => task.id === parentId);
+  const subtasks = state.subtasks.filter(
+    (subtask) => subtask.parentId === parentId
+  );
+  const updatedSubtasks = subtasks.map((subtask) => {
+    const updatedSubtask = {
+      ...subtask,
+      completed: true,
+    };
+    if (state.subtasks.some((sub) => sub.parentId === subtask.id)) {
+      updatedSubtask.subtasks = markAllSubtasksCompleteForParent(
+        subtask.id,
+        state
+      ).subtasks;
     }
+    return updatedSubtask;
   });
+
+  return {
+    ...parentTask,
+    subtasks: updatedSubtasks,
+  };
 }
 
-export function markParentTasksAsCompleted(state, subTaskId) {
-  // Find the subtask based on its ID
-  const subtask = state.subtasks.find((subtask) => subtask.id === subTaskId);
-
-  // If it is not marked as completed, do so
-  if (subtask && !subtask.completed) {
-    subtask.completed = true;
-
-    // If the subtask has its own subtasks, mark all of them as completed
-    const subSubtasks = state.subtasks.filter(
-      (subtask) => subtask.parentId === subTaskId
-    );
-    if (subSubtasks.length > 0) {
-      subSubtasks.forEach((subtask) => {
-        subtask.completed = true;
-        // Recursively mark all sub-subtasks as completed
-        markParentTasksAsCompleted(state, subtask.id);
-      });
+export const updateDescendantsCollapse = (subtasks, subTaskId) => {
+  return subtasks.map((subtask) => {
+    // Check if the subtask is a descendant of the target subtask and its collapseChildren property is false
+    if (subtask.parentId === subTaskId && !subtask.collapseChildren) {
+      // Update the `collapseChildren` property to true for the current descendant subtask.
+      const updatedSubtask = {
+        ...subtask,
+        collapseChildren: true,
+      };
+      // Recursively update the `collapseChildren` property for further descendants.
+      const updatedDescendants = updateDescendantsCollapse(
+        subtasks,
+        updatedSubtask.id
+      );
+      return { ...updatedSubtask, ...updatedDescendants };
     }
+    return subtask;
+  });
+};
 
-    // Find the subtask's parent through the parentId property
-    const parent =
-      subtask.parentType === "task"
-        ? state.tasks.find((task) => task.id === subtask.parentId)
-        : state.subtasks.find((subtask) => subtask.id === subtask.parentId);
-
-    if (
-      parent &&
-      // Check if all of the parent's subtasks are completed
-      state.subtasks
-        .filter((subtask) => subtask.parentId === parent.id)
-        .every((subtask) => subtask.completed)
-    ) {
-      // Recursively mark the parent task as completed
-      markParentTasksAsCompleted(state, parent.id);
-    }
-  }
-}
+// export function markParentTasksAsCompleted(state, subTaskId) {
+//   const subtask = state.subtasks.find((subtask) => subtask.id === subTaskId);
+//
+//
+//   if (subtask && !subtask.completed) {
+//     const updatedSubtasks = state.subtasks.map((subtask) =>
+//       subtask.parentId === subTaskId ? { ...subtask, completed: true } : subtask
+//     );
+//     const parent = getParent(state, subtask);
+//     if (parent && areAllSubtasksCompleted(parent, state.subtasks)) {
+//       markParentTasksAsCompleted(state, parent.id);
+//     }
+//     writeJsonData(tasksKey, { ...state, tasks: updatedTasks });
+//     writeJsonData(subtasksKey, { ...state, subtasks: updatedSubtasks });
+//   }
+//   const parent = getParent(state, subtask);
+// }
 
 export function areAllSubtasksCompleted(task, subtasks) {
   const taskSubtasks = subtasks.filter(
@@ -96,3 +97,37 @@ export function areAllSubtasksCompleted(task, subtasks) {
     );
   }
 }
+
+export function getIndentation(level) {
+  const indentationValues = [
+    0, 0.25, 0.5, 0.5625, 0.625, 0.6875, 0.75, 0.8125, 0.875, 0.9375, 1, 1.0625,
+    1.125, 1.1875, 1.25, 1.3125, 1.375, 1.4375, 1.5, 1.5625, 1.625, 1.6875,
+    1.75, 1.8125, 1.875, 1.9375, 2,
+  ];
+
+  if (level < indentationValues.length) {
+    return `${indentationValues[level]}rem`;
+  }
+  // For levels beyond the defined values, use the last value in the array
+  return `${indentationValues[indentationValues.length - 1]}rem`;
+}
+
+export const hasDescendantWithDepthGreaterThanOrEqualTo = (
+  parentId,
+  threshold,
+  subtasks
+) => {
+  const checkSubtasks = (id) => {
+    const children = subtasks.filter((subtask) => subtask.parentId === id);
+    for (const child of children) {
+      if (child.depth >= threshold && !child.collapseChildren) {
+        return true;
+      }
+      if (checkSubtasks(child.id)) {
+        return true;
+      }
+    }
+    return false;
+  };
+  return checkSubtasks(parentId);
+};
