@@ -65,7 +65,9 @@ const dataSlice = createSlice({
         depth: 1,
       };
       const newTasks =
-        state.tasks.length > 0 ? [newTask, ...state.tasks] : [newTask];
+        state.tasks.length > 0 && state !== null
+          ? [newTask, ...state.tasks]
+          : [newTask];
       const newState = { ...state, tasks: newTasks };
       try {
         writeJsonData(tasksKey, newState);
