@@ -16,7 +16,6 @@ import { renderIcon, shades } from "../../redux/utils/helperFunctions";
 import { SubtaskMenu } from "../DropdownMenus/SubtaskMenu";
 import {
   getIndentation,
-  hasDescendantWithDepthGreaterThanOrEqualTo,
 } from "../../redux/utils/helperFunctions";
 
 const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
@@ -31,62 +30,55 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
   const subtasksToRender = subtasks.filter(
     (subtask) => subtask.parentId === parentId
   );
-  const shouldApplyScrollableStyles =
-    depth === 2 &&
-    hasDescendantWithDepthGreaterThanOrEqualTo(parentId, 7, subtasks);
 
   return (
     <>
       {subtasksToRender.map((subtask) => {
         return (
           <div
-            className={shouldApplyScrollableStyles ? "subtask-scrollbar" : null}
+            className="subtask-container"
             key={subtask.id}
+            style={{
+              marginLeft: indentation,
+              borderLeft: `0.5px solid ${shades[depth - 2]}`,
+            }}
           >
-            <div
-              className="subtask-container"
-              style={{
-                marginLeft: indentation,
-                borderLeft: `0.5px solid ${shades[depth - 2]}`,
-              }}
-            >
-              <div className="subtask-header-container">
-                <div className="subtask-name-container">
-                  <div
-                    className="subtask-toggle"
-                    onClick={() =>
-                      handleToggleSubtaskIsCollapsed(dispatch, subtask.id)
-                    }
-                  >
-                    {/*add check to not have it if it doesnt have descendants*/}
-                    {renderIcon(subtask, subtasks, depth)}
-                  </div>
-                  <EditableField
-                    parentType={subtask.type}
-                    name={subtask.name}
-                    onSave={(newName) =>
-                      handleEditSubtaskName(dispatch, subtask.id, newName)
-                    }
-                    depth={depth}
-                  />
+            <div className="subtask-header-container">
+              <div className="subtask-name-container">
+                <div
+                  className="subtask-toggle"
+                  onClick={() =>
+                    handleToggleSubtaskIsCollapsed(dispatch, subtask.id)
+                  }
+                >
+                  {/*add check to not have it if it doesnt have descendants*/}
+                  {renderIcon(subtask, subtasks, depth)}
                 </div>
-                <div className="subtask-buttons-container">
-                  <SubtaskMenu subTask={subtask} />
-                  <Toggle
-                    key={subtask.id}
-                    checked={subtask.completed}
-                    onChange={(e) =>
-                      e.target.checked
-                        ? handleMarkSubtaskAsCompleted(dispatch, subtask.id)
-                        : handleMarkSubtaskAsNotCompleted(dispatch, subtask.id)
-                    }
-                  />
-                </div>
+                <EditableField
+                  parentType={subtask.type}
+                  name={subtask.name}
+                  onSave={(newName) =>
+                    handleEditSubtaskName(dispatch, subtask.id, newName)
+                  }
+                  depth={depth}
+                />
               </div>
-              <Collapse isOpened={!subtask.collapseChildren}>
-                <SubtaskList parentId={subtask.id} depth={depth + 1} />
-              </Collapse>
+              <div className="subtask-buttons-container">
+                <SubtaskMenu subTask={subtask} />
+                <Toggle
+                  key={subtask.id}
+                  checked={subtask.completed}
+                  onChange={(e) =>
+                    e.target.checked
+                      ? handleMarkSubtaskAsCompleted(dispatch, subtask.id)
+                      : handleMarkSubtaskAsNotCompleted(dispatch, subtask.id)
+                  }
+                />
+              </div>
             </div>
+            <Collapse isOpened={!subtask.collapseChildren}>
+              <SubtaskList parentId={subtask.id} depth={depth + 1} />
+            </Collapse>
           </div>
         );
       })}
