@@ -115,16 +115,20 @@ export function getIndentation(level) {
 
 export function generateShades(color, numShades) {
   const baseColor = tinycolor(color);
-  const step = 360 / numShades; // Rotate hue by equal steps
+  const hueStep = 360 / (numShades * 2); // Rotate hue by smaller steps
+  const blendStep = 1 / (numShades * 2); // Blend by smaller steps
+
   const shades = [];
 
   for (let i = 1; i < numShades; i++) {
-    const shade = baseColor.spin(i * step).toHexString();
+    const hueShiftedColor = baseColor.spin(i * hueStep);
+    const shade = tinycolor.mix(hueShiftedColor, '#ffffff', i * blendStep * 100).toHexString();
     shades.push(shade);
   }
 
   return shades;
 }
+
 
 export const shades = generateShades("#79F2D7", 10);
 

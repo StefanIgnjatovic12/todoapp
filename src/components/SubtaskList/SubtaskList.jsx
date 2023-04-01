@@ -48,8 +48,9 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
               className="subtask-container"
               style={{
                 marginLeft: indentation,
-                paddingRight: "0.5rem",
+                // paddingRight: "0.5rem",
                 borderLeft: `0.5px solid ${shades[depth - 2]}`,
+
               }}
             >
               <div className="subtask-header-container">

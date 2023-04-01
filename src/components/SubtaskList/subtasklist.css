@@ -41,8 +41,29 @@
   font-weight: bold;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
   flex-grow: 1;
-  font-family: 'Lato', sans-serif;;
+  font-family: 'Lato', sans-serif;
+  max-width: 100%;
+  word-wrap: break-word;
 }
+
+@media screen and (max-width: 1024px) {
+  .subtask-name {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .subtask-name {
+    font-size: 0.6rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .subtask-name {
+    font-size: 0.5rem;
+  }
+}
+
 
 .subtask-toggle{
   color: #79F2D7;

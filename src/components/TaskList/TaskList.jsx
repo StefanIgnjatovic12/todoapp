@@ -47,6 +47,7 @@ export function TaskList() {
                   {/*task is giving undefined in taskmenu*/}
                   <TaskMenu dispatch={dispatch} taskId={task.id} />
                   <Toggle
+                    className="custom-toggle"
                     checked={task.completed}
                     onChange={(e) =>
                       e.target.checked

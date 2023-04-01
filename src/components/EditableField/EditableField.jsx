@@ -5,7 +5,7 @@ import { shades } from "../../redux/utils/helperFunctions";
 function EditableField({ name, onSave, parentType, depth }) {
   const [value, setValue] = useState(name);
   const [editing, setEditing] = useState(false);
-  console.log(depth)
+  console.log(depth);
   const handleSave = () => {
     value.length > 0 && onSave(value);
     setEditing(false);
@@ -25,6 +25,7 @@ function EditableField({ name, onSave, parentType, depth }) {
       {editing ? (
         <input
           autoFocus={true}
+          style={{ color: shades[depth - 2] }}
           className="edit-input-field"
           type="text"
           value={value}

@@ -16,7 +16,7 @@
     margin: 0 auto;
     max-width: 960px;
     padding: 1rem;
-    background-color:  #010c16;
+    background-color: #010c16;
     border-radius: 5px;
     border: 2px solid #79F2D7;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -65,11 +65,42 @@
     flex-grow: 1;
 }
 
+@media screen and (max-width: 1024px) {
+    .task-name {
+        font-size: 1.1rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .task-name {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .task-name {
+        font-size: 0.9rem;
+    }
+}
+
+
 .task-buttons-container {
     display: flex;
     gap: 1rem;
     align-items: center;
 }
+
+/*.react-toggle .react-toggle-track-check {*/
+/*  background-color: #79F2D7;*/
+/*}*/
+
+/*.react-toggle .react-toggle--checked .react-toggle-track-check {*/
+/*  color: yellow;*/
+/*}*/
+
+/*.react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {*/
+/*  background-color: #B8FFE1;*/
+/*}*/
 
 
 /*.task-edit-input-field::placeholder {*/

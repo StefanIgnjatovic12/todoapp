@@ -33,19 +33,20 @@
 }
 
 .task-add-button {
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border: 2px solid #79F2D7;
-    color: #79F2D7;
-    background-color: transparent;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.2s ease-in-out;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-size: 5vw;
+  font-weight: bold;
+  border: 2px solid #79F2D7;
+  color: #79F2D7;
+  background-color: transparent;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease-in-out;
 }
 
 .task-add-button:hover {
-    background-color: #79F2D7;
-    color:  #074638;
-    cursor: pointer;
+  background-color: #79F2D7;
+  color:  #074638;
+  cursor: pointer;
 }
+
