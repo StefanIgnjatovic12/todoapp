@@ -1,6 +1,6 @@
 import React from "react";
 import { writeJsonData } from "./jsonUtils";
-import { tasksKey, subtasksKey } from "../data/dataSlice";
+import { subtasksKey } from "../data/dataSlice";
 import tinycolor from "tinycolor2";
 
 export function findTaskOrSubtaskById(id, data) {
@@ -13,12 +13,6 @@ export function findTaskOrSubtaskById(id, data) {
     return subtask;
   }
   return null; // return null if task or subtask with the given ID is not found
-}
-
-function getParent(state, subtask) {
-  return subtask.parentType === "task"
-    ? state.tasks.find((task) => task.id === subtask.parentId)
-    : state.subtasks.find((subtask) => subtask.id === subtask.parentId);
 }
 
 export function markAllSubtasksCompleteForParent(parentId, state) {
@@ -107,24 +101,6 @@ export const updateDescendantsCollapse = (subtasks, subTaskId) => {
   });
 };
 
-// export function markParentTasksAsCompleted(state, subTaskId) {
-//   const subtask = state.subtasks.find((subtask) => subtask.id === subTaskId);
-//
-//
-//   if (subtask && !subtask.completed) {
-//     const updatedSubtasks = state.subtasks.map((subtask) =>
-//       subtask.parentId === subTaskId ? { ...subtask, completed: true } : subtask
-//     );
-//     const parent = getParent(state, subtask);
-//     if (parent && areAllSubtasksCompleted(parent, state.subtasks)) {
-//       markParentTasksAsCompleted(state, parent.id);
-//     }
-//     writeJsonData(tasksKey, { ...state, tasks: updatedTasks });
-//     writeJsonData(subtasksKey, { ...state, subtasks: updatedSubtasks });
-//   }
-//   const parent = getParent(state, subtask);
-// }
-
 export function areAllSubtasksCompleted(task, subtasks) {
   const taskSubtasks = subtasks.filter(
     (subtask) => subtask.parentId === task.id
@@ -195,11 +171,9 @@ export const hasDescendantWithDepthGreaterThanOrEqualTo = (
   return checkSubtasks(parentId);
 };
 
-
 export const hasChildren = (subTaskId, subtasks) => {
   return subtasks.some((subtask) => subtask.parentId === subTaskId);
-}
-
+};
 
 export const renderIcon = (subtask, subtasks, depth) => {
   const icon = subtask.collapseChildren ? "▼" : "▲";

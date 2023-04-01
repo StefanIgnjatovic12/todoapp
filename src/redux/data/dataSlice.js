@@ -1,10 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { writeJsonData, readJsonData } from "../utils/jsonUtils";
 import {
-  areAllSubtasksCompleted,
   markAllSubtasksCompleteForParent,
-  findSubtask,
-  markParentTasksAsCompleted,
   findTaskOrSubtaskById,
   updateDescendantsCollapse,
   deleteAllSubtasksForParent,
@@ -23,35 +20,8 @@ const initialState = {
   subtasks: [],
 };
 
-// const test = {
-//   tasks: [
-//     {
-//       id: 1,
-//       name: task,
-//       completed: false,
-//       type: "task",
-//       createdOn: "4/1/2023, 13:22:04",
-//       depth: 1,
-//     },
-//   ],
-//   subtasks: [
-//     {
-//       id: 1.1,
-//       name: subtask,
-//       completed: false,
-//       type: "subtask",
-//       parentId: 1,
-//       parentType: "task",
-//       collapseChildren: true,
-//       createdOn: "4/1/2023, 13:22:07",
-//       depth: 2,
-//     },
-//   ],
-// };
-
 const dataSlice = createSlice({
   name: "data",
-  // initialState: testData,
   initialState: savedState || initialState,
   reducers: {
     addTask: (state, action) => {
@@ -70,193 +40,149 @@ const dataSlice = createSlice({
           : [newTask];
 
       const newState = { ...state, tasks: newTasks };
-      try {
-        writeJsonData(tasksKey, newState);
-      } catch (error) {
-        console.log("Error while writing task state to local storage: ", error);
-      }
+      writeJsonData(tasksKey, newState);
       return newState;
     },
     addSubtask: (state, action) => {
-      try {
-        // console.log('called')
-        const createdOn = new Date().toLocaleString("en-US", { hour12: false });
+      const createdOn = new Date().toLocaleString("en-US", { hour12: false });
+      const { parentId, name } = action.payload;
 
-        const { parentId, name } = action.payload;
-        console.log(JSON.stringify(action.payload));
-        //check if parent is a data or another subtask
-        const parent = findTaskOrSubtaskById(parentId, state);
-        // console.log(JSON.stringify(parent))
-        if (parent) {
-          const newSubtask = {
-            id: uuidv4(),
-            name,
-            completed: false,
-            type: "subtask",
-            parentId: parent.id,
-            parentType: parent.type,
-            collapseChildren: true,
-            createdOn: createdOn,
-            depth: parent.depth + 1,
-          };
-          const newSubtasks =
-            state && state.subtasks && state.subtasks.length > 0
-              ? [newSubtask, ...state.tasks]
-              : [newSubtask];
+      //check if parent is a data or another subtask
+      const parent = findTaskOrSubtaskById(parentId, state);
+      if (parent) {
+        const newSubtask = {
+          id: uuidv4(),
+          name,
+          completed: false,
+          type: "subtask",
+          parentId: parent.id,
+          parentType: parent.type,
+          collapseChildren: true,
+          createdOn: createdOn,
+          depth: parent.depth + 1,
+        };
+        const newSubtasks =
+          state && state.subtasks && state.subtasks.length > 0
+            ? [newSubtask, ...state.subtasks]
+            : [newSubtask];
 
-          const newState = { ...state, subtasks: newSubtasks };
-          writeJsonData(subtasksKey, newState);1
+        const newState = { ...state, subtasks: newSubtasks };
+        writeJsonData(subtasksKey, newState);
 
-          if (parent.type === "subtask") {
-            const updatedParent = { ...parent, collapseChildren: false };
-            const updatedSubtasks = newState.subtasks.map((subtask) =>
-              subtask.id === updatedParent.id ? updatedParent : subtask
-            );
-            const updatedState = { ...newState, subtasks: updatedSubtasks };
-            writeJsonData(subtasksKey, updatedSubtasks);
-            return updatedState;
-          }
-
-          return newState;
+        if (parent.type === "subtask") {
+          const updatedParent = { ...parent, collapseChildren: false };
+          const updatedSubtasks = newState.subtasks.map((subtask) =>
+            subtask.id === updatedParent.id ? updatedParent : subtask
+          );
+          const updatedState = { ...newState, subtasks: updatedSubtasks };
+          writeJsonData(subtasksKey, updatedSubtasks);
+          return updatedState;
         }
-      } catch (error) {
-        console.log("Error while adding subtask: ", error);
+
+        return newState;
       }
     },
     editTaskName: (state, action) => {
-      try {
-        const { taskId, newName } = action.payload;
-        const task = state.tasks.find((task) => task.id === taskId);
-        if (task) {
-          const updatedTasks = state.tasks.map((task) =>
-            task.id === taskId ? { ...task, name: newName } : task
-          );
-          writeJsonData(tasksKey, updatedTasks);
-          return { ...state, tasks: updatedTasks };
-        }
-      } catch (error) {
-        console.log("Error while editing task name: ", error);
+      const { taskId, newName } = action.payload;
+      const task = state.tasks.find((task) => task.id === taskId);
+      if (task) {
+        const updatedTasks = state.tasks.map((task) =>
+          task.id === taskId ? { ...task, name: newName } : task
+        );
+        writeJsonData(tasksKey, updatedTasks);
+        return { ...state, tasks: updatedTasks };
       }
     },
 
     editSubtaskName: (state, action) => {
-      try {
-        const { subtaskId, newName } = action.payload;
-        const subtask = state.subtasks.find(
-          (subtask) => subtask.id === subtaskId
+      const { subtaskId, newName } = action.payload;
+      const subtask = state.subtasks.find(
+        (subtask) => subtask.id === subtaskId
+      );
+      if (subtask) {
+        const updatedSubtasks = state.subtasks.map((subtask) =>
+          subtask.id === subtaskId ? { ...subtask, name: newName } : subtask
         );
-        if (subtask) {
-          const updatedSubtasks = state.subtasks.map((subtask) =>
-            subtask.id === subtaskId ? { ...subtask, name: newName } : subtask
-          );
-          writeJsonData(subtasksKey, updatedSubtasks);
-          return { ...state, subtasks: updatedSubtasks };
-        }
-      } catch (error) {
-        console.log("Error while editing subtask name: ", error);
+        writeJsonData(subtasksKey, updatedSubtasks);
+        return { ...state, subtasks: updatedSubtasks };
       }
     },
 
     deleteTask: (state, action) => {
-      try {
-        const { taskId } = action.payload;
-        const updatedTasks = state.tasks.filter((task) => task.id !== taskId);
-        const updatedSubtasks = deleteAllSubtasksForParent(taskId, state);
-        writeJsonData(tasksKey, updatedTasks);
-        writeJsonData(subtasksKey, updatedSubtasks);
-        return { ...state, tasks: updatedTasks, subtasks: updatedSubtasks };
-      } catch (error) {
-        console.log("Error while deleting task: ", error);
-      }
+      const { taskId } = action.payload;
+      const updatedTasks = state.tasks.filter((task) => task.id !== taskId);
+      const updatedSubtasks = deleteAllSubtasksForParent(taskId, state);
+      writeJsonData(tasksKey, updatedTasks);
+      writeJsonData(subtasksKey, updatedSubtasks);
+      return { ...state, tasks: updatedTasks, subtasks: updatedSubtasks };
     },
 
     deleteSubTask: (state, action) => {
-      try {
-        const { subTaskId } = action.payload;
-        //delete the subtasks descendents
-        const updatedSubtasksForParent = deleteAllSubtasksForParent(
-          subTaskId,
-          state
-        );
-        const updatedSubtasks = updatedSubtasksForParent.filter(
-          (subtask) => subtask.id !== subTaskId
-        );
-        writeJsonData(subtasksKey, updatedSubtasks);
-        return { ...state, subtasks: updatedSubtasks };
-      } catch (error) {
-        console.log("Error while deleting subtask: ", error);
-      }
+      const { subTaskId } = action.payload;
+      //delete the subtasks descendents
+      const updatedSubtasksForParent = deleteAllSubtasksForParent(
+        subTaskId,
+        state
+      );
+      const updatedSubtasks = updatedSubtasksForParent.filter(
+        (subtask) => subtask.id !== subTaskId
+      );
+      writeJsonData(subtasksKey, updatedSubtasks);
+      return { ...state, subtasks: updatedSubtasks };
     },
 
     markTaskAsCompleted: (state, action) => {
-      try {
-        const { taskId } = action.payload;
-        const updatedTasks = state.tasks.map((task) =>
-          task.id === taskId ? { ...task, completed: true } : task
-        );
-        const updatedSubtasks = markAllSubtasksCompleteForParent(taskId, state);
-        writeJsonData(tasksKey, updatedTasks);
-        return { ...state, tasks: updatedTasks, subtasks: updatedSubtasks };
-      } catch (error) {
-        console.log("Error while marking task as completed: ", error);
-      }
+      const { taskId } = action.payload;
+      const updatedTasks = state.tasks.map((task) =>
+        task.id === taskId ? { ...task, completed: true } : task
+      );
+      const updatedSubtasks = markAllSubtasksCompleteForParent(taskId, state);
+      writeJsonData(tasksKey, updatedTasks);
+      return { ...state, tasks: updatedTasks, subtasks: updatedSubtasks };
     },
 
     markTaskAsNotCompleted: (state, action) => {
-      try {
-        const { taskId } = action.payload;
-        const updatedTasks = state.tasks.map((task) => {
-          if (task.id === taskId) {
-            return { ...task, completed: false };
-          }
-          return task;
-        });
-        writeJsonData(tasksKey, updatedTasks);
-        return { ...state, tasks: updatedTasks };
-      } catch (error) {
-        console.log("Error while marking task as not completed: ", error);
-      }
+      const { taskId } = action.payload;
+      const updatedTasks = state.tasks.map((task) => {
+        if (task.id === taskId) {
+          return { ...task, completed: false };
+        }
+        return task;
+      });
+      writeJsonData(tasksKey, updatedTasks);
+      return { ...state, tasks: updatedTasks };
     },
 
     // Reducer function to mark a subtask as completed
     markSubtaskAsCompleted: (state, action) => {
-      try {
-        // Extract the IDs of the subtask and its parent data
-        const { subTaskId } = action.payload;
-        // Mark all parent tasks as completed if necessary and write to local storage
-        const subtask = state.subtasks.find(
-          (subtask) => subtask.id === subTaskId
-        );
-        console.log(JSON.stringify(subtask.completed));
-        if (subtask && !subtask.completed) {
-          const updatedSubtasks = state.subtasks.map((subtask) =>
-            subtask.id === subTaskId ? { ...subtask, completed: true } : subtask
-          );
+      // Extract the IDs of the subtask and its parent data
+      const { subTaskId } = action.payload;
+      // Mark all parent tasks as completed if necessary and write to local storage
+      const subtask = state.subtasks.find(
+        (subtask) => subtask.id === subTaskId
+      );
 
-          writeJsonData(subtasksKey, updatedSubtasks);
-          return { ...state, subtasks: updatedSubtasks };
-        }
-        // markAllSubtasksCompleteForParent(subtask);
-      } catch (error) {
-        console.error("Error marking subtask as completed: ", error);
+      if (subtask && !subtask.completed) {
+        const updatedSubtasks = state.subtasks.map((subtask) =>
+          subtask.id === subTaskId ? { ...subtask, completed: true } : subtask
+        );
+
+        writeJsonData(subtasksKey, updatedSubtasks);
+        return { ...state, subtasks: updatedSubtasks };
       }
     },
 
     // Reducer function to mark a subtask as not completed
     markSubtaskAsNotCompleted: (state, action) => {
-      try {
-        const { subTaskId } = action.payload;
-        const updatedSubtasks = state.subtasks.map((subtask) => {
-          if (subtask.id === subTaskId) {
-            return { ...subtask, completed: false };
-          }
-          return subtask;
-        });
-        writeJsonData(subtasksKey, updatedSubtasks);
-        return { ...state, subtasks: updatedSubtasks };
-      } catch (error) {
-        console.error("Error marking subtask as not completed: ", error);
-      }
+      const { subTaskId } = action.payload;
+      const updatedSubtasks = state.subtasks.map((subtask) => {
+        if (subtask.id === subTaskId) {
+          return { ...subtask, completed: false };
+        }
+        return subtask;
+      });
+      writeJsonData(subtasksKey, updatedSubtasks);
+      return { ...state, subtasks: updatedSubtasks };
     },
 
     toggleSubtaskIsCollapsed: (state, action) => {
@@ -283,9 +209,7 @@ const dataSlice = createSlice({
       return { ...state, subtasks: finalSubtasks };
     },
   },
-  extraReducers: {
-    // Handle extra reducers here, such as fetching tasks from an API
-  },
+  extraReducers: {},
 });
 
 export default dataSlice.reducer;

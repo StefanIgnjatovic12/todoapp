@@ -3,10 +3,8 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import dataReducer from "../data/dataSlice";
 import { writeJsonData } from "../utils/jsonUtils";
 
-
 const rootReducer = combineReducers({
   data: dataReducer,
-  // TODO: Add more reducers here if needed
 });
 
 const store = configureStore({

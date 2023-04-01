@@ -5,7 +5,6 @@ import { shades } from "../../redux/utils/helperFunctions";
 function EditableField({ name, onSave, parentType, depth }) {
   const [value, setValue] = useState(name);
   const [editing, setEditing] = useState(false);
-  console.log(depth);
   const handleSave = () => {
     value.length > 0 && onSave(value);
     setEditing(false);

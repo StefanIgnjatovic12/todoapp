@@ -2,20 +2,14 @@ import React, { useState } from "react";
 import Popover from "react-popover";
 import "./menu.css";
 import Modal from "../Modals/AddSubtaskModal";
-import {
-  handleDeleteSubtask,
-  handleAddSubtask,
-  handleEditSubtaskName,
-  handleAddTask,
-} from "../../redux/data/actions";
-import EditableField from "../EditableField/EditableField";
+import { handleDeleteSubtask } from "../../redux/data/actions";
 import { useDispatch } from "react-redux";
 
 export function SubtaskMenu({ subTask }) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isAddSubTaskModalIsOpen, setIsAddSubTaskModalOpen] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   return (
     <div>
       {isAddSubTaskModalIsOpen && (

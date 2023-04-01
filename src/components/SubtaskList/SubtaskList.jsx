@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import "react-toggle/style.css";
 import "./subtasklist.css";
 import Toggle from "react-toggle";
@@ -12,10 +12,9 @@ import { Collapse } from "react-collapse";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSubtasks } from "../../redux/data/dataSlice";
 import EditableField from "../EditableField/EditableField";
-import { hasChildren, renderIcon, shades } from "../../redux/utils/helperFunctions";
+import { renderIcon, shades } from "../../redux/utils/helperFunctions";
 import { SubtaskMenu } from "../DropdownMenus/SubtaskMenu";
 import {
-  generateShades,
   getIndentation,
   hasDescendantWithDepthGreaterThanOrEqualTo,
 } from "../../redux/utils/helperFunctions";
@@ -48,7 +47,6 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
               className="subtask-container"
               style={{
                 marginLeft: indentation,
-                // paddingRight: "0.5rem",
                 borderLeft: `0.5px solid ${shades[depth - 2]}`,
               }}
             >
@@ -65,7 +63,7 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
                   </div>
                   <EditableField
                     parentType={subtask.type}
-                    name={`${subtask.name} with depth of ${subtask.depth}`}
+                    name={subtask.name}
                     onSave={(newName) =>
                       handleEditSubtaskName(dispatch, subtask.id, newName)
                     }

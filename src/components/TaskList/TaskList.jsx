@@ -6,19 +6,14 @@ import "../../styles/globalstyles.css";
 import {
   handleMarkTaskAsCompleted,
   handleMarkTaskAsNotCompleted,
-  handleAddTask,
   handleEditTaskName,
 } from "../../redux/data/actions";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { Provider } from "react-redux";
-
-import store from "../../redux/store/store";
-import { selectSubtasks, selectTasks } from "../../redux/data/dataSlice";
+import { selectTasks } from "../../redux/data/dataSlice";
 import SubtaskList from "../SubtaskList/SubtaskList";
 import { TaskMenu } from "../DropdownMenus/TaskMenu";
 import EditableField from "../EditableField/EditableField";
-import { hasDeepDescendants } from "../../redux/utils/helperFunctions";
 import { AddTaskInputField } from "../AddTaskInputField/AddTaskInputField";
 import "../../styles/globalstyles.css";
 import { TabButtons } from "../TabButtons/TabButtons";
