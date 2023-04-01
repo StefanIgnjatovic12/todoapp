@@ -26,7 +26,7 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
 
   const indentation = getIndentation(depth);
 
-  if (subtasks === undefined || subtasks.length === 0) {
+  if (!subtasks || subtasks.length === 0) {
     return null;
   }
   const subtasksToRender = subtasks.filter(

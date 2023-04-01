@@ -100,12 +100,12 @@ const dataSlice = createSlice({
             depth: parent.depth + 1,
           };
           const newSubtasks =
-            state && state.subtasks && state.tasks.length > 0
+            state && state.subtasks && state.subtasks.length > 0
               ? [newSubtask, ...state.tasks]
               : [newSubtask];
 
           const newState = { ...state, subtasks: newSubtasks };
-          writeJsonData(subtasksKey, newState);
+          writeJsonData(subtasksKey, newState);1
 
           if (parent.type === "subtask") {
             const updatedParent = { ...parent, collapseChildren: false };
