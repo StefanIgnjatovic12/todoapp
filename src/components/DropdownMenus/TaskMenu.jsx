@@ -3,8 +3,6 @@ import Popover from "react-popover";
 import "./menu.css";
 import Modal from "../Modals/AddSubtaskModal";
 import {
-  handleAddSubtask,
-  handleDeleteSubtask,
   handleDeleteTask,
 } from "../../redux/data/actions";
 import { useDispatch } from "react-redux";
