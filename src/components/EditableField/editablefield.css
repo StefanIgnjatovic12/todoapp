@@ -1,7 +1,7 @@
-.edit-input-field-container {
-    width: 34vw;
-    max-width: 90%;
-}
+/*.edit-input-field-container {*/
+/*    max-width: 90%;*/
+/*    width: 90%;*/
+/*}*/
 
 .edit-input-field {
     flex-grow: 1;
@@ -11,9 +11,11 @@
     color: #79F2D7;
     background-color: transparent;
     margin-right: 1rem;
-    width: 100%;
-    max-width: 50%;
+    max-width: 90%;
     word-wrap: break-word;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 .edit-input-field:focus {
@@ -28,19 +30,33 @@
 }
 
 @media screen and (max-width: 1024px) {
-    .edit-input-field:focus {
-        font-size: 1rem;
-    }
+  .edit-input-field:focus {
+    font-size: 1rem;
+  }
 }
 
 @media screen and (max-width: 768px) {
-    .edit-input-field:focus {
-        font-size: 0.8rem;
-    }
+  .edit-input-field:focus {
+    font-size: 0.8rem;
+  }
 }
 
 @media screen and (max-width: 480px) {
-    .edit-input-field:focus {
-        font-size: 0.6rem;
-    }
+  .edit-input-field:focus {
+    font-size: 0.6rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .edit-input-field {
+    max-width: 90%;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .edit-input-field {
+    max-width: 85%;
+    font-size: 0.9rem;
+  }
 }

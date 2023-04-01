@@ -1,8 +1,15 @@
+.task-list-tabs-main-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
 .task-list-tabs {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 18rem;
+    width: 25%;
     margin-top: 2rem;
     margin-bottom: 1rem;
 }
@@ -29,4 +36,64 @@
 .tab-button-clicked {
     background-color: #79F2D7;
     color: #074638;
+}
+
+@media screen and (max-width: 1680px) {
+    .task-list-tabs {
+        width: 30%;
+
+    }
+
+}
+
+@media screen and (max-width: 1440px) {
+    .task-list-tabs {
+        width: 32%;
+    }
+
+}
+
+@media screen and (max-width: 1280px) {
+
+    .task-list-tabs {
+        width: 30%;
+    }
+
+    .tab-button {
+        /*font-size: 1.5rem;*/
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .task-list-tabs {
+        width: 34%;
+    }
+
+    .tab-button {
+        font-size: 1rem;
+        border-radius: 8px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .task-list-tabs {
+        width: 40%;
+    }
+    .tab-button {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.7rem;
+        border-radius: 6px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .task-list-tabs {
+        width: 60%;
+    }
+
+    .tab-button {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+    }
 }

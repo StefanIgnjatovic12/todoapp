@@ -18,7 +18,8 @@ function EditableField({ name, onSave, parentType, depth }) {
 
   return (
     <div
-      className="edit-input-field-container"
+      className={parentType === "task" ? "task-name" : "subtask-name"}
+      style={{ color: shades[depth - 2] }}
       onClick={() => setEditing(true)}
     >
       {editing ? (
@@ -33,12 +34,7 @@ function EditableField({ name, onSave, parentType, depth }) {
           onKeyDown={handleKeyDown}
         />
       ) : (
-        <div
-          className={parentType === "task" ? "task-name" : "subtask-name"}
-          style={{ color: shades[depth - 2] }}
-        >
-          {name}
-        </div>
+        <>{name}</>
       )}
     </div>
   );

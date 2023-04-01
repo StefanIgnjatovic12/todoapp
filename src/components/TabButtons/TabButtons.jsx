@@ -18,23 +18,25 @@ export function TabButtons({ setTab }) {
   };
 
   return (
-    <div className="task-list-tabs">
-      <button
-        className={`tab-button tab-button-incomplete ${
-          incompleteButtonClicked ? "tab-button-clicked" : ""
-        }`}
-        onClick={handleIncompleteClick}
-      >
-        Incomplete
-      </button>
-      <button
-        className={`tab-button tab-button-complete ${
-          completeButtonClicked ? "tab-button-clicked" : ""
-        }`}
-        onClick={handleCompleteClick}
-      >
-        Completed
-      </button>
+    <div className="task-list-tabs-main-container">
+      <div className="task-list-tabs">
+        <button
+          className={`tab-button tab-button-incomplete ${
+            incompleteButtonClicked ? "tab-button-clicked" : ""
+          }`}
+          onClick={handleIncompleteClick}
+        >
+          Incomplete
+        </button>
+        <button
+          className={`tab-button tab-button-complete ${
+            completeButtonClicked ? "tab-button-clicked" : ""
+          }`}
+          onClick={handleCompleteClick}
+        >
+          Completed
+        </button>
+      </div>
     </div>
   );
 }

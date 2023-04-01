@@ -24,7 +24,7 @@ export const Modal = ({ isOpen, setIsAddSubTaskModalOpen, parentId }) => {
             onChange={(e) => setSubTaskName(e.target.value)}
           />
           <button
-            className="primary-button"
+            className="subtask-add-button"
             onClick={() => {
               setIsAddSubTaskModalOpen(false);
               subTaskName.length > 0 &&

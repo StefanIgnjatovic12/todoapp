@@ -1,39 +1,44 @@
-.subtask-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
-
-.subtask-container:hover {
-    opacity:0.95;
-
-}
-
 .subtask-header-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
+    overflow: hidden;
 }
 
 .subtask-name-container {
     display: flex;
     align-items: center;
+    flex: 1;
+    word-wrap: break-word;
+    padding-right: 1rem;
+    min-width: 0; /* Add this */
 }
 
 .subtask-name {
-    display: flex;
+    display: block;
     color: #03A9F4;
     font-size: 1rem;
     font-weight: bold;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
     flex-grow: 1;
+    flex-basis: 0;
     font-family: 'Lato', sans-serif;
     max-width: 100%;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
+
 }
+
+
+.subtask-buttons-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: 2rem;
+}
+
 
 @media screen and (max-width: 1024px) {
     .subtask-name {

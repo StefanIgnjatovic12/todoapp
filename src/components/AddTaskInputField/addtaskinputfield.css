@@ -9,6 +9,27 @@
     margin-bottom: 3rem;
     margin-left: auto;
     margin-right: auto;
+    /*padding-left: 2rem;*/
+    /*padding-right: 2rem;*/
+    box-sizing: border-box;
+    width: 100vw;
+    max-width: 100%;
+
+
+}
+.task-add-container-main {
+    background-color: #010c16;
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+    position: sticky;
+    z-index: 9999;
+    /*margin-top: 10vh;*/
+    /*margin-bottom: 3rem;*/
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+    /*padding-left: 2rem;*/
+    /*padding-right: 2rem;*/
     box-sizing: border-box;
     width: 100vw;
     max-width: 100%;
@@ -47,7 +68,7 @@
     border-radius: 10px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     color: #79F2D7;
-    font-size: 5vw;
+    font-size: 1rem;
     font-weight: bold;
     padding: 0.5rem 1rem;
     transition: background-color 0.2s ease-in-out;
@@ -57,4 +78,70 @@
     background-color: #79F2D7;
     color: #074638;
     cursor: pointer;
+}
+
+
+/* 1440px screen */
+@media (max-width: 1440px) {
+    .task-add-button {
+        font-size: 1.5rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .task-add-input-field {
+        font-size: 1.1rem;
+        padding: 0.5rem;
+    }
+}
+
+/* 1024px screen */
+@media (max-width: 1024px) {
+    .task-add-button {
+        font-size: 1.2rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    .task-add-input-field {
+        font-size: 1rem;
+        padding: 0.4rem;
+    }
+}
+
+/* 768px screen */
+@media (max-width: 768px) {
+    .task-add-button {
+        font-size: 1rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .task-add-input-field {
+        font-size: 0.9rem;
+        padding: 0.3rem;
+    }
+}
+
+/* 480px screen */
+@media (max-width: 480px) {
+    .task-add-button {
+        font-size: 0.9rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .task-add-input-field {
+        font-size: 0.6rem;
+        padding: 0.2rem;
+    }
+}
+
+/* 360px screen */
+@media (max-width: 360px) {
+    .task-add-button {
+        font-size: 0.8rem;
+        padding: 0.1rem 0.2rem;
+    }
+
+    .task-add-input-field {
+        font-size: 0.7rem;
+        padding: 0.1rem;
+    }
 }
