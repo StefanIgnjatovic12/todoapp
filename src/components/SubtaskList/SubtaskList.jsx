@@ -12,9 +12,10 @@ import { Collapse } from "react-collapse";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSubtasks } from "../../redux/data/dataSlice";
 import EditableField from "../EditableField/EditableField";
-
+import { shades } from "../../redux/utils/helperFunctions";
 import { SubtaskMenu } from "../DropdownMenus/SubtaskMenu";
 import {
+  generateShades,
   getIndentation,
   hasDescendantWithDepthGreaterThanOrEqualTo,
 } from "../../redux/utils/helperFunctions";
@@ -24,6 +25,7 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
   const subtasks = useSelector(selectSubtasks);
 
   const indentation = getIndentation(depth);
+
   if (subtasks === undefined || subtasks.length === 0) {
     return null;
   }
@@ -33,7 +35,6 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
   const shouldApplyScrollableStyles =
     depth === 2 &&
     hasDescendantWithDepthGreaterThanOrEqualTo(parentId, 7, subtasks);
-
 
   return (
     <>
@@ -45,24 +46,34 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
           >
             <div
               className="subtask-container"
-              style={{ marginLeft: indentation }}
+              style={{
+                marginLeft: indentation,
+                paddingRight: "0.5rem",
+                borderLeft: `0.5px solid ${shades[depth - 2]}`,
+              }}
             >
               <div className="subtask-header-container">
                 <div className="subtask-name-container">
-                  <EditableField
-                    name={`${subtask.name} with depth of ${subtask.depth}`}
-                    onSave={(newName) =>
-                      handleEditSubtaskName(dispatch, subtask.id, newName)
-                    }
-                  />
                   <div
                     className="subtask-toggle"
                     onClick={() =>
                       handleToggleSubtaskIsCollapsed(dispatch, subtask.id)
                     }
                   >
-                    {subtask.collapseChildren ? "▼" : "▲"}
+                    {subtask.collapseChildren ? (
+                      <div style={{ color: shades[depth - 2] }}>▼</div>
+                    ) : (
+                      <div style={{ color: shades[depth - 2] }}>▲</div>
+                    )}
                   </div>
+                  <EditableField
+                    parentType={subtask.type}
+                    name={`${subtask.name} with depth of ${subtask.depth}`}
+                    onSave={(newName) =>
+                      handleEditSubtaskName(dispatch, subtask.id, newName)
+                    }
+                    depth={depth}
+                  />
                 </div>
                 <div className="subtask-buttons-container">
                   <SubtaskMenu dispatch={dispatch} subTask={subtask} />
@@ -88,6 +99,6 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
   );
 });
 
-SubtaskList.displayName = 'SubtaskList';
+SubtaskList.displayName = "SubtaskList";
 
 export default SubtaskList;

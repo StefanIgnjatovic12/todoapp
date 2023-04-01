@@ -1,26 +1,31 @@
-import React, { useState } from 'react';
-import "./editablefield.css"
-function EditableField({ name, onSave }) {
+import React, { useState } from "react";
+import "./editablefield.css";
+import { shades } from "../../redux/utils/helperFunctions";
+
+function EditableField({ name, onSave, parentType, depth }) {
   const [value, setValue] = useState(name);
   const [editing, setEditing] = useState(false);
-
+  console.log(depth)
   const handleSave = () => {
-    onSave(value);
+    value.length > 0 && onSave(value);
     setEditing(false);
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleSave();
     }
   };
 
   return (
-    <div onClick={() => setEditing(true)}>
+    <div
+      className="edit-input-field-container"
+      onClick={() => setEditing(true)}
+    >
       {editing ? (
         <input
           autoFocus={true}
-          className="task-edit-input-field"
+          className="edit-input-field"
           type="text"
           value={value}
           onChange={(event) => setValue(event.target.value)}
@@ -28,7 +33,12 @@ function EditableField({ name, onSave }) {
           onKeyDown={handleKeyDown}
         />
       ) : (
-        <div className="task-name">{name}</div>
+        <div
+          className={parentType === "task" ? "task-name" : "subtask-name"}
+          style={{ color: shades[depth - 2] }}
+        >
+          {name}
+        </div>
       )}
     </div>
   );

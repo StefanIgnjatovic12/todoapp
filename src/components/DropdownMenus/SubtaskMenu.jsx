@@ -20,6 +20,7 @@ export function SubtaskMenu({ dispatch, subTask }) {
         <Modal
           setIsAddSubTaskModalOpen={setIsAddSubTaskModalOpen}
           isOpen={isAddSubTaskModalIsOpen}
+          parentId={subTask.id}
         />
       )}
       <Popover

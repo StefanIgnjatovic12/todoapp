@@ -51,11 +51,14 @@ const dataSlice = createSlice({
     },
     addSubtask: (state, action) => {
       try {
+        // console.log('called')
         const createdOn = new Date().toLocaleString("en-US", { hour12: false });
 
         const { parentId, name } = action.payload;
+        console.log(JSON.stringify(action.payload))
         //check if parent is a data or another subtask
         const parent = findTaskOrSubtaskById(parentId, state);
+        // console.log(JSON.stringify(parent))
         if (parent) {
           const newSubtask = {
             id: uuidv4(),

@@ -3,6 +3,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+    width: 90%;
 }
 
 .task-add-input-field {

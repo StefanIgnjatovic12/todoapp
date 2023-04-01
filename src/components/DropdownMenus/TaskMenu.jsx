@@ -19,25 +19,8 @@ export function TaskMenu({ dispatch, taskId }) {
         <Modal
           setIsAddSubTaskModalOpen={setIsAddSubTaskModalOpen}
           isOpen={isAddSubTaskModalIsOpen}
-        >
-          <div className="task-add-container">
-            <input
-              className="task-add-input-field"
-              type="text"
-              value={subTaskName}
-              onChange={(e) => setSubTaskName(e.target.value)}
-            />
-            <button
-              className="primary-button"
-              onClick={() => {
-                setIsAddSubTaskModalOpen(false);
-                handleAddSubtask(dispatch, taskId, subTaskName);
-              }}
-            >
-              Add subtask
-            </button>
-          </div>
-        </Modal>
+          parentId={taskId}
+        />
       )}
       <Popover
         isOpen={isPopoverOpen}

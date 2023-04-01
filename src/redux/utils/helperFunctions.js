@@ -1,5 +1,6 @@
 import { writeJsonData } from "./jsonUtils";
 import { tasksKey, subtasksKey } from "../data/dataSlice";
+import tinycolor from 'tinycolor2';
 
 export function findTaskOrSubtaskById(id, data) {
   const task = data.tasks.find((task) => task.id === id);
@@ -111,6 +112,22 @@ export function getIndentation(level) {
   // For levels beyond the defined values, use the last value in the array
   return `${indentationValues[indentationValues.length - 1]}rem`;
 }
+
+export function generateShades(color, numShades) {
+  const baseColor = tinycolor(color);
+  const step = 360 / numShades; // Rotate hue by equal steps
+  const shades = [];
+
+  for (let i = 1; i < numShades; i++) {
+    const shade = baseColor.spin(i * step).toHexString();
+    shades.push(shade);
+  }
+
+  return shades;
+}
+
+export const shades = generateShades("#79F2D7", 10);
+
 
 export const hasDescendantWithDepthGreaterThanOrEqualTo = (
   parentId,

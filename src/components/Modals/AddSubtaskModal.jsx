@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactModal from "react-modal";
-import "./modal.css";
+import "./addsubtaskmodal.css";
 import { handleAddSubtask } from "../../redux/data/actions";
 import { useDispatch } from "react-redux";
 
@@ -8,11 +8,9 @@ ReactModal.setAppElement("#root");
 export const Modal = ({
   isOpen,
   setIsAddSubTaskModalOpen,
-  taskId,
-  subTaskId,
+  parentId
 }) => {
   const [subTaskName, setSubTaskName] = useState("");
-  const parentId = taskId ? taskId : subTaskId;
   const dispatch = useDispatch();
   return (
     <ReactModal
@@ -23,9 +21,9 @@ export const Modal = ({
     >
 
       <div className="modal-content">
-        <div className="task-add-container">
+        <div className="subtask-add-container">
           <input
-            className="task-add-input-field"
+            className="subtask-add-input-field"
             type="text"
             value={subTaskName}
             onChange={(e) => setSubTaskName(e.target.value)}
@@ -34,7 +32,7 @@ export const Modal = ({
             className="primary-button"
             onClick={() => {
               setIsAddSubTaskModalOpen(false);
-              handleAddSubtask(dispatch, parentId, subTaskName);
+              subTaskName.length > 0 && handleAddSubtask(dispatch, parentId, subTaskName);
             }}
           >
             Add subtask

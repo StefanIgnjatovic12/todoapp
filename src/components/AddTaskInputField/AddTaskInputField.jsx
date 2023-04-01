@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { handleAddTask } from "../../redux/data/actions";
-import "./addtaskinputfield.css"
-import "../../styles/globalstyles.css"
+import "./addtaskinputfield.css";
+import "../../styles/globalstyles.css";
+
 export function AddTaskInputField() {
   const dispatch = useDispatch();
   const [taskName, setTaskName] = useState("");
@@ -17,7 +18,9 @@ export function AddTaskInputField() {
       />
       <button
         className="primary-button"
-        onClick={() => handleAddTask(dispatch, taskName, setTaskName)}
+        onClick={() => {
+          taskName.length > 0 && handleAddTask(dispatch, taskName, setTaskName);
+        }}
       >
         Add Task
       </button>

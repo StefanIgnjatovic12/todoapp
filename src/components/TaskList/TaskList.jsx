@@ -36,6 +36,7 @@ export function TaskList() {
             <div className="task-container" key={task.id}>
               <div className="task-header-container">
                 <EditableField
+                  parentType={task.type}
                   name={task.name}
                   onSave={(newName) =>
                     handleEditTaskName(dispatch, task.id, newName)
