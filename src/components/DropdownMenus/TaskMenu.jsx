@@ -7,12 +7,13 @@ import {
   handleDeleteSubtask,
   handleDeleteTask,
 } from "../../redux/data/actions";
+import { useDispatch } from "react-redux";
 
-export function TaskMenu({ dispatch, taskId }) {
+export function TaskMenu({ taskId }) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isAddSubTaskModalIsOpen, setIsAddSubTaskModalOpen] = useState(false);
-  const [subTaskName, setSubTaskName] = useState("");
 
+  const dispatch = useDispatch();
   return (
     <div>
       {isAddSubTaskModalIsOpen && (

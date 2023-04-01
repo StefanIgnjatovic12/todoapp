@@ -1,9 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import dataReducer from "../data/dataSlice";
-import { readJsonData, writeJsonData } from "../utils/jsonUtils";
-
-
+import { writeJsonData } from "../utils/jsonUtils";
 
 
 const rootReducer = combineReducers({
@@ -17,10 +15,8 @@ const store = configureStore({
 
 store.subscribe(() => {
   const state = store.getState().data;
-  writeJsonData('tasks', state.tasks)
-  writeJsonData('subtasks', state.subtasks)
-
+  writeJsonData("tasks", state.tasks);
+  writeJsonData("subtasks", state.subtasks);
 });
 
 export default store;
-

@@ -1,0 +1,32 @@
+.task-list-tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 18rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: 2px solid #79F2D7;
+    border-radius: 10px;
+    color: #79F2D7;
+    background-color: transparent;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.tab-button:hover {
+    background-color: #79F2D7;
+    color: #074638;
+    cursor: pointer;
+}
+
+
+.tab-button-clicked {
+    background-color: #79F2D7;
+    color: #074638;
+}

@@ -1,122 +1,108 @@
-
 .subtask-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  /* padding: 0.25rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  margin-left: 1rem; */
-  margin-bottom: 1rem;
-  /*background-color: #143552;*/
-  /*border: 2px solid #03A9F4;*/
-  /*border-radius: 10px;*/
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); */
-  /* transition: box-shadow 0.2s ease-in-out; */
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 1rem;
 }
 
-
 .subtask-container:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
 
-  /*box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);*/
 }
 
 .subtask-header-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
 }
 
-.subtask-name-container{
-  display: flex;
-  align-items: center;
+.subtask-name-container {
+    display: flex;
+    align-items: center;
 }
+
 .subtask-name {
-  display: flex;
-  color: #03A9F4;
-  font-size: 1rem;
-  font-weight: bold;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-  flex-grow: 1;
-  font-family: 'Lato', sans-serif;
-  max-width: 100%;
-  word-wrap: break-word;
+    display: flex;
+    color: #03A9F4;
+    font-size: 1rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    flex-grow: 1;
+    font-family: 'Lato', sans-serif;
+    max-width: 100%;
+    word-wrap: break-word;
 }
 
 @media screen and (max-width: 1024px) {
-  .subtask-name {
-    font-size: 0.8rem;
-  }
+    .subtask-name {
+        font-size: 0.8rem;
+    }
 }
 
 @media screen and (max-width: 768px) {
-  .subtask-name {
-    font-size: 0.6rem;
-  }
+    .subtask-name {
+        font-size: 0.6rem;
+    }
 }
 
 @media screen and (max-width: 480px) {
-  .subtask-name {
-    font-size: 0.5rem;
-  }
+    .subtask-name {
+        font-size: 0.5rem;
+    }
 }
 
-
-.subtask-toggle{
-  color: #79F2D7;
-  font-size: 0.75rem;
-  margin-right: 1rem
+.subtask-toggle {
+    color: #79F2D7;
+    font-size: 0.75rem;
+    margin-right: 1rem
 }
 
 .subtask-buttons-container {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
 }
 
 .show-more-button-container {
-  display: flex;
-  justify-content: flex-end;
-  margin: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0.5rem;
 }
+
 .show-more-button {
-  width: 10rem;
+    width: 10rem;
 }
-
-
 
 .subtask-scrollbar:not(.subtask-scrollbar > *) {
-  display: flex;
-  overflow-x: auto;
-  white-space: nowrap;
-
-  /*scrollbar-width: thin;*/
-  scrollbar-color: #79F2D7 rgba(255, 255, 255, 0.1);
-  margin-bottom: 1rem;
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin;
+    scrollbar-color: #79F2D7 rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
 }
 
 .subtask-scrollbar::-webkit-scrollbar {
-  width: 0.25em;
-  height: 0.25em;
+    width: 0.25em;
+    height: 0.25em;
 }
 
 .subtask-scrollbar::-webkit-scrollbar-track {
-  background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .subtask-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #79F2D7;
+    background-color: #79F2D7;
 }
 
 .subtask-scrollbar:hover::-webkit-scrollbar-thumb {
-  background-color: #2dd4bf;
+    background-color: #2dd4bf;
 }
 
 .subtask-scrollbar::-webkit-scrollbar-corner {
-  background-color: #ccc;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }

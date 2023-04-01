@@ -1,6 +1,7 @@
+import React from "react";
 import { writeJsonData } from "./jsonUtils";
 import { tasksKey, subtasksKey } from "../data/dataSlice";
-import tinycolor from 'tinycolor2';
+import tinycolor from "tinycolor2";
 
 export function findTaskOrSubtaskById(id, data) {
   const task = data.tasks.find((task) => task.id === id);
@@ -21,28 +22,69 @@ function getParent(state, subtask) {
 }
 
 export function markAllSubtasksCompleteForParent(parentId, state) {
-  const parentTask = state.tasks.find((task) => task.id === parentId);
-  const subtasks = state.subtasks.filter(
-    (subtask) => subtask.parentId === parentId
-  );
-  const updatedSubtasks = subtasks.map((subtask) => {
-    const updatedSubtask = {
-      ...subtask,
-      completed: true,
-    };
-    if (state.subtasks.some((sub) => sub.parentId === subtask.id)) {
-      updatedSubtask.subtasks = markAllSubtasksCompleteForParent(
-        subtask.id,
-        state
-      ).subtasks;
-    }
-    return updatedSubtask;
-  });
+  // Create a set to store the IDs of the completed parent task and the subtasks/nestedsubtasks,
+  let completedSubtaskIds = new Set([parentId]);
 
-  return {
-    ...parentTask,
-    subtasks: updatedSubtasks,
-  };
+  // Used to keep track while we're iterating
+  let noSubtasksUpdated;
+
+  // Make a copy of the state's subtasks
+  let updatedSubtasks = [...state.subtasks];
+
+  // Continue updating subtasks until no more changes are made
+  do {
+    // Set noSubtasksUpdated to true, assuming no subtasks will be updated in this iteration
+    noSubtasksUpdated = true;
+
+    // Iterate through each subtask
+    updatedSubtasks = updatedSubtasks.map((subtask) => {
+      // If the subtask's parentId is in the completedSubtaskIds set and the subtask is not completed yet
+      if (completedSubtaskIds.has(subtask.parentId) && !subtask.completed) {
+        // Set subtasksUpdated to false, indicating that a subtask has been updated in this iteration
+        noSubtasksUpdated = false;
+
+        // Add the subtask ID to the completedSubtaskIds set
+        completedSubtaskIds.add(subtask.id);
+
+        // Return the updated subtask with the completed status set to true
+        return { ...subtask, completed: true };
+      }
+
+      // Return the unchanged subtask
+      return subtask;
+    });
+  } while (!noSubtasksUpdated); // Continue updating subtasks until no more changes are made > if !noSubtasksUpdated
+  // = true, continue the loop
+
+  // Write the updated subtasks to local storage
+  writeJsonData(subtasksKey, updatedSubtasks);
+
+  // Return the updated subtasks
+  return updatedSubtasks;
+}
+
+export function deleteAllSubtasksForParent(parentId, state) {
+  let subtaskIdsToProcess = new Set([parentId]);
+  let subtasksToProcessFound;
+  let updatedSubtasks = [...state.subtasks];
+  do {
+    subtasksToProcessFound = false;
+    updatedSubtasks = updatedSubtasks.filter((subtask) => {
+      if (subtaskIdsToProcess.has(subtask.parentId)) {
+        subtasksToProcessFound = true;
+        subtaskIdsToProcess.add(subtask.id);
+
+        // If the subtask is not the parent task, delete it from the updatedSubtasks array
+        if (subtask.id !== parentId) {
+          return false;
+        }
+      }
+      // Return the unchanged subtask
+      return subtask;
+    });
+  } while (subtasksToProcessFound);
+
+  return updatedSubtasks;
 }
 
 export const updateDescendantsCollapse = (subtasks, subTaskId) => {
@@ -122,16 +164,16 @@ export function generateShades(color, numShades) {
 
   for (let i = 1; i < numShades; i++) {
     const hueShiftedColor = baseColor.spin(i * hueStep);
-    const shade = tinycolor.mix(hueShiftedColor, '#ffffff', i * blendStep * 100).toHexString();
+    const shade = tinycolor
+      .mix(hueShiftedColor, "#ffffff", i * blendStep * 100)
+      .toHexString();
     shades.push(shade);
   }
 
   return shades;
 }
 
-
 export const shades = generateShades("#79F2D7", 10);
-
 
 export const hasDescendantWithDepthGreaterThanOrEqualTo = (
   parentId,
@@ -151,4 +193,17 @@ export const hasDescendantWithDepthGreaterThanOrEqualTo = (
     return false;
   };
   return checkSubtasks(parentId);
+};
+
+
+export const hasChildren = (subTaskId, subtasks) => {
+  return subtasks.some((subtask) => subtask.parentId === subTaskId);
+}
+
+
+export const renderIcon = (subtask, subtasks, depth) => {
+  const icon = subtask.collapseChildren ? "▼" : "▲";
+  const hasChildren = subtasks.some((s) => s.parentId === subtask.id);
+  const color = shades[depth - 2];
+  return <div style={{ color }}>{hasChildren ? icon : "▼"}</div>;
 };

@@ -12,7 +12,7 @@ import { Collapse } from "react-collapse";
 import { useDispatch, useSelector } from "react-redux";
 import { selectSubtasks } from "../../redux/data/dataSlice";
 import EditableField from "../EditableField/EditableField";
-import { shades } from "../../redux/utils/helperFunctions";
+import { hasChildren, renderIcon, shades } from "../../redux/utils/helperFunctions";
 import { SubtaskMenu } from "../DropdownMenus/SubtaskMenu";
 import {
   generateShades,
@@ -50,7 +50,6 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
                 marginLeft: indentation,
                 // paddingRight: "0.5rem",
                 borderLeft: `0.5px solid ${shades[depth - 2]}`,
-
               }}
             >
               <div className="subtask-header-container">
@@ -61,11 +60,8 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
                       handleToggleSubtaskIsCollapsed(dispatch, subtask.id)
                     }
                   >
-                    {subtask.collapseChildren ? (
-                      <div style={{ color: shades[depth - 2] }}>▼</div>
-                    ) : (
-                      <div style={{ color: shades[depth - 2] }}>▲</div>
-                    )}
+                    {/*add check to not have it if it doesnt have descendants*/}
+                    {renderIcon(subtask, subtasks, depth)}
                   </div>
                   <EditableField
                     parentType={subtask.type}
@@ -77,7 +73,7 @@ const SubtaskList = React.memo(({ parentId, depth = 2 }) => {
                   />
                 </div>
                 <div className="subtask-buttons-container">
-                  <SubtaskMenu dispatch={dispatch} subTask={subtask} />
+                  <SubtaskMenu subTask={subtask} />
                   <Toggle
                     key={subtask.id}
                     checked={subtask.completed}

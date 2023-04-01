@@ -9,9 +9,9 @@ export const readJsonData = (key) => {
 };
 
 export const writeJsonData = (key, data) => {
+  console.log(key, data)
   try {
     localStorage.setItem(key, JSON.stringify(data, null, 2));
-    console.log(localStorage.getItem(key))
   } catch (err) {
     console.error(`Error writing JSON file ${key}:`, err);
   }

@@ -9,11 +9,13 @@ import {
   handleAddTask,
 } from "../../redux/data/actions";
 import EditableField from "../EditableField/EditableField";
+import { useDispatch } from "react-redux";
 
-export function SubtaskMenu({ dispatch, subTask }) {
+export function SubtaskMenu({ subTask }) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isAddSubTaskModalIsOpen, setIsAddSubTaskModalOpen] = useState(false);
-  const [subTaskName, setSubTaskName] = useState("");
+
+  const dispatch = useDispatch()
   return (
     <div>
       {isAddSubTaskModalIsOpen && (
