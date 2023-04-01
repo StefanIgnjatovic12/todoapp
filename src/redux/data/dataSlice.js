@@ -100,7 +100,7 @@ const dataSlice = createSlice({
             depth: parent.depth + 1,
           };
           const newSubtasks =
-            state && state.tasks && state.tasks.length > 0
+            state && state.subtasks && state.tasks.length > 0
               ? [newSubtask, ...state.tasks]
               : [newSubtask];
 
